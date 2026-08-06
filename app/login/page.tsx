@@ -37,12 +37,12 @@ export default function LoginPage() {
             />
           </div>
 
-          <button
-            type="submit"
-            className="w-full rounded-lg bg-yellow-500 px-4 py-3 font-bold text-black"
-          >
-            Sign In
-          </button>
+          <Link
+  href="/dashboard"
+  className="block w-full rounded-lg bg-yellow-500 px-4 py-3 text-center font-bold text-black transition hover:bg-yellow-400"
+>
+  Sign In
+</Link>
         </form>
 
         <div className="mt-6 text-center">
