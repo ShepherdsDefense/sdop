@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function Home() {
   return (
     <main className="min-h-screen bg-gray-950 text-white flex items-center justify-center">
@@ -15,9 +17,12 @@ export default function Home() {
           Equipping Those Who Protect What Matters Most
         </p>
 
-        <button className="mt-10 bg-yellow-500 hover:bg-yellow-400 text-black px-8 py-4 rounded-xl font-bold text-xl">
-          Login
-        </button>
+        <Link
+  href="/login"
+  className="mt-10 inline-block rounded-xl bg-yellow-500 px-8 py-4 text-xl font-bold text-black transition hover:bg-yellow-400"
+>
+  Login
+</Link>
 
         <p className="mt-12 text-sm text-gray-500">
           Version 0.1
