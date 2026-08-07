@@ -19,10 +19,13 @@ export default function LoginPage() {
             </label>
 
             <input
-              id="email"
-              type="email"
-              className="w-full rounded-lg border border-gray-700 bg-gray-950 px-4 py-3"
-            />
+  id="email"
+  name="email"
+  type="email"
+  autoComplete="email"
+  placeholder="you@example.com"
+  className="w-full rounded-lg border border-gray-700 bg-gray-950 px-4 py-3 outline-none focus:border-yellow-400"
+/>
           </div>
 
           <div>
@@ -31,18 +34,22 @@ export default function LoginPage() {
             </label>
 
             <input
-              id="password"
-              type="password"
-              className="w-full rounded-lg border border-gray-700 bg-gray-950 px-4 py-3"
-            />
+  id="password"
+  name="password"
+  type="password"
+  autoComplete="current-password"
+  placeholder="Password"
+  className="w-full rounded-lg border border-gray-700 bg-gray-950 px-4 py-3 outline-none focus:border-yellow-400"
+/>
           </div>
-
-          <Link
-  href="/dashboard"
-  className="block w-full rounded-lg bg-yellow-500 px-4 py-3 text-center font-bold text-black transition hover:bg-yellow-400"
->
-  Sign In
-</Link>
+<div>
+  <Link
+    href="/dashboard"
+    className="block w-full rounded-lg bg-yellow-500 px-4 py-3 text-center font-bold text-black transition hover:bg-yellow-400"
+  >
+    Sign In
+  </Link>
+</div>
         </form>
 
         <div className="mt-6 text-center">
