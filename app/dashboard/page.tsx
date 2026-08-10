@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { redirect } from "next/navigation";
+import { createClient } from "@/lib/supabase/server";
 
 const statistics = [
   {
@@ -30,7 +32,17 @@ const tasks = [
   "Confirm range availability",
 ];
 
-export default function DashboardPage() {
+export default async function DashboardPage() {
+  const supabase = await createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    redirect("/login");
+  }
+
   return (
     <main className="min-h-screen bg-gray-950 text-white">
       <header className="border-b border-gray-800 bg-gray-900 px-4 py-4 sm:px-8">
@@ -101,6 +113,10 @@ export default function DashboardPage() {
 
             <p className="mt-2 text-gray-400">
               Here is your current Shepherds Defense operations overview.
+            </p>
+
+            <p className="mt-2 text-sm text-gray-500">
+              Signed in as {user.email}
             </p>
           </div>
 
