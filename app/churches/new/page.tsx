@@ -1,84 +1,71 @@
 import Link from "next/link";
+import AppShell from "@/components/AppShell";
+import { createChurch } from "../actions";
 
-export default function AddChurchPage() {
+export default function NewChurchPage() {
   return (
-    <main className="min-h-screen bg-gray-950 px-4 py-8 text-white sm:px-8">
+    <AppShell active="churches">
       <div className="mx-auto max-w-3xl">
         <Link
           href="/churches"
-          className="text-sm text-yellow-400 transition hover:text-yellow-300"
+          className="text-sm font-medium text-amber-400 hover:text-amber-300"
         >
-          ← Return to Churches
+          ← Back to Church CRM
         </Link>
 
         <div className="mt-6">
-          <p className="text-sm font-semibold uppercase tracking-widest text-yellow-400">
-            Shepherds Defense
+          <p className="text-sm font-semibold text-amber-400">
+            Church Outreach
           </p>
 
-          <h1 className="mt-2 text-3xl font-bold">
-            Add Church Prospect
-          </h1>
+          <h2 className="mt-1 text-3xl font-black tracking-tight">
+            Add Church
+          </h2>
 
-          <p className="mt-2 text-gray-400">
-            Create a new church record for outreach and follow-up.
+          <p className="mt-2 text-slate-400">
+            Add a new church prospect or partner to SDOP.
           </p>
         </div>
 
-        <form className="mt-8 space-y-6 rounded-2xl border border-gray-800 bg-gray-900 p-5 sm:p-8">
+        <form
+          action={createChurch}
+          className="mt-8 space-y-6 rounded-2xl border border-slate-800 bg-slate-900 p-6"
+        >
           <div>
-            <label
-              htmlFor="churchName"
-              className="mb-2 block text-sm font-medium"
-            >
-              Church name
+            <label className="mb-2 block text-sm font-medium">
+              Church Name *
             </label>
 
             <input
-              id="churchName"
-              name="churchName"
-              type="text"
+              name="church_name"
               required
-              placeholder="Example: Grace Community Church"
-              className="w-full rounded-lg border border-gray-700 bg-gray-950 px-4 py-3 outline-none transition placeholder:text-gray-600 focus:border-yellow-400"
+              className="w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 outline-none focus:border-amber-400"
             />
           </div>
 
           <div className="grid gap-6 sm:grid-cols-2">
             <div>
-              <label
-                htmlFor="city"
-                className="mb-2 block text-sm font-medium"
-              >
-                City
+              <label className="mb-2 block text-sm font-medium">
+                Denomination
               </label>
 
               <input
-                id="city"
-                name="city"
-                type="text"
-                placeholder="Greensboro"
-                className="w-full rounded-lg border border-gray-700 bg-gray-950 px-4 py-3 outline-none transition placeholder:text-gray-600 focus:border-yellow-400"
+                name="denomination"
+                className="w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 outline-none focus:border-amber-400"
               />
             </div>
 
             <div>
-              <label
-                htmlFor="county"
-                className="mb-2 block text-sm font-medium"
-              >
+              <label className="mb-2 block text-sm font-medium">
                 County
               </label>
 
               <select
-                id="county"
                 name="county"
-                className="w-full rounded-lg border border-gray-700 bg-gray-950 px-4 py-3 outline-none transition focus:border-yellow-400"
                 defaultValue=""
+                className="w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 outline-none focus:border-amber-400"
               >
-                <option value="" disabled>
-                  Select county
-                </option>
+                <option value="">Select county</option>
                 <option>Guilford</option>
                 <option>Randolph</option>
                 <option>Rockingham</option>
@@ -92,76 +79,81 @@ export default function AddChurchPage() {
             </div>
           </div>
 
-          <div className="grid gap-6 sm:grid-cols-2">
-            <div>
-              <label
-                htmlFor="phone"
-                className="mb-2 block text-sm font-medium"
-              >
-                Office phone
-              </label>
-
-              <input
-                id="phone"
-                name="phone"
-                type="tel"
-                placeholder="336-555-1234"
-                className="w-full rounded-lg border border-gray-700 bg-gray-950 px-4 py-3 outline-none transition placeholder:text-gray-600 focus:border-yellow-400"
-              />
-            </div>
-
-            <div>
-              <label
-                htmlFor="email"
-                className="mb-2 block text-sm font-medium"
-              >
-                Office email
-              </label>
-
-              <input
-                id="email"
-                name="email"
-                type="email"
-                placeholder="office@example.org"
-                className="w-full rounded-lg border border-gray-700 bg-gray-950 px-4 py-3 outline-none transition placeholder:text-gray-600 focus:border-yellow-400"
-              />
-            </div>
-          </div>
-
           <div>
-            <label
-              htmlFor="website"
-              className="mb-2 block text-sm font-medium"
-            >
-              Website
+            <label className="mb-2 block text-sm font-medium">
+              Address
             </label>
 
             <input
-              id="website"
-              name="website"
-              type="url"
-              placeholder="https://example.org"
-              className="w-full rounded-lg border border-gray-700 bg-gray-950 px-4 py-3 outline-none transition placeholder:text-gray-600 focus:border-yellow-400"
+              name="address"
+              className="w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 outline-none focus:border-amber-400"
             />
           </div>
 
           <div className="grid gap-6 sm:grid-cols-2">
             <div>
-              <label
-                htmlFor="status"
-                className="mb-2 block text-sm font-medium"
-              >
-                Lead status
+              <label className="mb-2 block text-sm font-medium">
+                City
+              </label>
+
+              <input
+                name="city"
+                className="w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 outline-none focus:border-amber-400"
+              />
+            </div>
+
+            <div>
+              <label className="mb-2 block text-sm font-medium">
+                Phone
+              </label>
+
+              <input
+                name="phone"
+                type="tel"
+                className="w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 outline-none focus:border-amber-400"
+              />
+            </div>
+          </div>
+
+          <div className="grid gap-6 sm:grid-cols-2">
+            <div>
+              <label className="mb-2 block text-sm font-medium">
+                Email
+              </label>
+
+              <input
+                name="email"
+                type="email"
+                className="w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 outline-none focus:border-amber-400"
+              />
+            </div>
+
+            <div>
+              <label className="mb-2 block text-sm font-medium">
+                Website
+              </label>
+
+              <input
+                name="website"
+                type="url"
+                placeholder="https://"
+                className="w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 outline-none focus:border-amber-400"
+              />
+            </div>
+          </div>
+
+          <div className="grid gap-6 sm:grid-cols-2">
+            <div>
+              <label className="mb-2 block text-sm font-medium">
+                Status
               </label>
 
               <select
-                id="status"
                 name="status"
                 defaultValue="New"
-                className="w-full rounded-lg border border-gray-700 bg-gray-950 px-4 py-3 outline-none transition focus:border-yellow-400"
+                className="w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 outline-none focus:border-amber-400"
               >
                 <option>New</option>
-                <option>Warm Lead</option>
                 <option>Contacted</option>
                 <option>Meeting Scheduled</option>
                 <option>Proposal Sent</option>
@@ -171,18 +163,14 @@ export default function AddChurchPage() {
             </div>
 
             <div>
-              <label
-                htmlFor="priority"
-                className="mb-2 block text-sm font-medium"
-              >
+              <label className="mb-2 block text-sm font-medium">
                 Priority
               </label>
 
               <select
-                id="priority"
                 name="priority"
                 defaultValue="Medium"
-                className="w-full rounded-lg border border-gray-700 bg-gray-950 px-4 py-3 outline-none transition focus:border-yellow-400"
+                className="w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 outline-none focus:border-amber-400"
               >
                 <option>High</option>
                 <option>Medium</option>
@@ -192,43 +180,34 @@ export default function AddChurchPage() {
           </div>
 
           <div>
-            <label
-              htmlFor="notes"
-              className="mb-2 block text-sm font-medium"
-            >
+            <label className="mb-2 block text-sm font-medium">
               Notes
             </label>
 
             <textarea
-              id="notes"
               name="notes"
               rows={5}
-              placeholder="Contact names, security needs, referrals, or follow-up information..."
-              className="w-full resize-y rounded-lg border border-gray-700 bg-gray-950 px-4 py-3 outline-none transition placeholder:text-gray-600 focus:border-yellow-400"
+              className="w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 outline-none focus:border-amber-400"
             />
           </div>
 
-          <div className="flex flex-col-reverse gap-3 border-t border-gray-800 pt-6 sm:flex-row sm:justify-end">
+          <div className="flex flex-col-reverse gap-3 border-t border-slate-800 pt-6 sm:flex-row sm:justify-end">
             <Link
               href="/churches"
-              className="rounded-lg border border-gray-700 px-5 py-3 text-center font-semibold text-gray-300 transition hover:border-gray-500 hover:text-white"
+              className="rounded-xl border border-slate-700 px-5 py-3 text-center font-semibold text-slate-300 hover:border-slate-500"
             >
               Cancel
             </Link>
 
             <button
               type="submit"
-              className="rounded-lg bg-yellow-500 px-5 py-3 font-bold text-black transition hover:bg-yellow-400"
+              className="rounded-xl bg-amber-400 px-5 py-3 font-bold text-slate-950 transition hover:bg-amber-300"
             >
               Save Church
             </button>
           </div>
         </form>
-
-        <p className="mt-4 text-center text-sm text-gray-500">
-          The Save Church button will connect to Supabase in the next stage.
-        </p>
       </div>
-    </main>
+    </AppShell>
   );
 }

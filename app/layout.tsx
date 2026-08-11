@@ -13,10 +13,9 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "Shepherds Defense Operations Portal",
-  description:
-    "Operations and relationship management for Shepherds Defense Group.",
+export const metadata = {
+  title: "SDOP | Shepherds Defense",
+  description: "Shepherds Defense Operations Portal",
 };
 
 export default function RootLayout({

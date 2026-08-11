@@ -1,6 +1,6 @@
-import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import AppShell from "@/components/AppShell";
 
 const statistics = [
   {
@@ -11,12 +11,12 @@ const statistics = [
   {
     label: "Follow-Ups Due",
     value: "7",
-    detail: "3 due today",
+    detail: "3 need attention today",
   },
   {
-    label: "Meetings Scheduled",
+    label: "Meetings",
     value: "2",
-    detail: "Next meeting Thursday",
+    detail: "Scheduled this week",
   },
   {
     label: "Active Partners",
@@ -44,174 +44,125 @@ export default async function DashboardPage() {
   }
 
   return (
-    <main className="min-h-screen bg-gray-950 text-white">
-      <header className="border-b border-gray-800 bg-gray-900 px-4 py-4 sm:px-8">
-        <div className="mx-auto flex max-w-7xl items-center justify-between">
-          <div>
-            <p className="text-sm font-semibold uppercase tracking-widest text-yellow-400">
-              Shepherds Defense
-            </p>
+    <AppShell active="dashboard">
+      <div className="rounded-2xl border border-slate-800 bg-gradient-to-br from-slate-900 to-slate-900/60 p-6 shadow-xl shadow-black/10">
+  <p className="text-sm font-semibold text-amber-400">
+    Welcome back
+  </p>
 
-            <h1 className="text-xl font-bold sm:text-2xl">
-              Operations Portal
-            </h1>
-          </div>
+  <h2 className="mt-2 text-3xl font-black tracking-tight sm:text-4xl">
+    Welcome to SDOP
+  </h2>
 
-          <Link
-            href="/"
-            className="rounded-lg border border-gray-700 px-4 py-2 text-sm text-gray-300 transition hover:border-yellow-400 hover:text-yellow-400"
+  <p className="mt-3 max-w-2xl text-slate-400">
+    Your command center for Shepherds Defense operations.
+  </p>
+
+  <p className="mt-4 text-sm text-slate-500">
+    Signed in as {user.email}
+  </p>
+</div>
+
+      <div className="mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        {statistics.map((statistic) => (
+          <article
+            key={statistic.label}
+            className="rounded-2xl border border-slate-800 bg-slate-900 p-5 shadow-lg shadow-black/10 transition hover:-translate-y-0.5 hover:border-slate-700"
           >
-            Sign Out
-          </Link>
-        </div>
-      </header>
-
-      <div className="mx-auto grid max-w-7xl gap-6 px-4 py-6 sm:px-8 lg:grid-cols-[240px_1fr]">
-        <aside className="rounded-2xl border border-gray-800 bg-gray-900 p-4">
-          <nav className="space-y-2">
-            <Link
-              href="/dashboard"
-              className="block rounded-lg bg-yellow-500 px-4 py-3 font-semibold text-black"
-            >
-              Dashboard
-            </Link>
-
-            <Link
-              href="/churches"
-              className="block rounded-lg px-4 py-3 text-gray-300 transition hover:bg-gray-800 hover:text-white"
-            >
-              Churches
-            </Link>
-
-            <span className="block rounded-lg px-4 py-3 text-gray-600">
-              Partnerships
-            </span>
-
-            <span className="block rounded-lg px-4 py-3 text-gray-600">
-              Training
-            </span>
-
-            <span className="block rounded-lg px-4 py-3 text-gray-600">
-              Tasks
-            </span>
-
-            <span className="block rounded-lg px-4 py-3 text-gray-600">
-              Reports
-            </span>
-          </nav>
-        </aside>
-
-        <section>
-          <div>
-            <p className="text-sm text-gray-400">
-              Wednesday, August 5
+            <p className="text-sm font-medium text-slate-400">
+              {statistic.label}
             </p>
 
-            <h2 className="mt-1 text-3xl font-bold">
-              Welcome to SDOP
-            </h2>
-
-            <p className="mt-2 text-gray-400">
-              Here is your current Shepherds Defense operations overview.
+            <p className="mt-3 text-4xl font-bold tracking-tight text-amber-400">
+              {statistic.value}
             </p>
 
-            <p className="mt-2 text-sm text-gray-500">
-              Signed in as {user.email}
+            <p className="mt-2 text-sm text-slate-500">
+              {statistic.detail}
             </p>
+          </article>
+        ))}
+      </div>
+
+      <div className="mt-6 grid gap-6 xl:grid-cols-2">
+        <article className="rounded-2xl border border-slate-800 bg-slate-900 p-6 shadow-xl shadow-black/10">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-widest text-slate-500">
+                Operations
+              </p>
+
+              <h3 className="mt-1 text-xl font-bold">
+                Tasks Due
+              </h3>
+            </div>
+
+            <span className="rounded-full bg-amber-400/10 px-3 py-1 text-sm font-semibold text-amber-400">
+              {tasks.length} open
+            </span>
           </div>
 
-          <div className="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-            {statistics.map((statistic) => (
-              <article
-                key={statistic.label}
-                className="rounded-2xl border border-gray-800 bg-gray-900 p-5"
+          <div className="mt-5 space-y-3">
+            {tasks.map((task) => (
+              <label
+                key={task}
+                className="flex cursor-pointer items-center gap-3 rounded-xl border border-slate-800 bg-slate-950/60 p-4 transition hover:border-slate-700"
               >
-                <p className="text-sm text-gray-400">
-                  {statistic.label}
-                </p>
+                <input
+                  type="checkbox"
+                  className="h-4 w-4 accent-amber-400"
+                />
 
-                <p className="mt-3 text-4xl font-bold text-yellow-400">
-                  {statistic.value}
-                </p>
-
-                <p className="mt-2 text-sm text-gray-500">
-                  {statistic.detail}
-                </p>
-              </article>
+                <span className="text-sm text-slate-200">
+                  {task}
+                </span>
+              </label>
             ))}
           </div>
+        </article>
 
-          <div className="mt-8 grid gap-6 xl:grid-cols-2">
-            <article className="rounded-2xl border border-gray-800 bg-gray-900 p-6">
-              <div className="flex items-center justify-between">
-                <h3 className="text-xl font-bold">
-                  Tasks Due
-                </h3>
+        <article className="rounded-2xl border border-slate-800 bg-slate-900 p-6 shadow-xl shadow-black/10">
+          <p className="text-xs font-semibold uppercase tracking-widest text-slate-500">
+            Schedule
+          </p>
 
-                <span className="rounded-full bg-yellow-500/10 px-3 py-1 text-sm text-yellow-400">
-                  {tasks.length} open
-                </span>
-              </div>
+          <h3 className="mt-1 text-xl font-bold">
+            Upcoming Activity
+          </h3>
 
-              <div className="mt-5 space-y-3">
-                {tasks.map((task) => (
-                  <label
-                    key={task}
-                    className="flex items-center gap-3 rounded-lg border border-gray-800 bg-gray-950 p-4"
-                  >
-                    <input
-                      type="checkbox"
-                      className="h-4 w-4 accent-yellow-500"
-                    />
+          <div className="mt-5 space-y-3">
+            <div className="rounded-xl border border-slate-800 bg-slate-950/60 p-4">
+              <p className="font-semibold text-amber-400">
+                Church Outreach Meeting
+              </p>
 
-                    <span className="text-gray-200">
-                      {task}
-                    </span>
-                  </label>
-                ))}
-              </div>
-            </article>
+              <p className="mt-1 text-sm text-slate-500">
+                Thursday · 10:00 AM
+              </p>
+            </div>
 
-            <article className="rounded-2xl border border-gray-800 bg-gray-900 p-6">
-              <h3 className="text-xl font-bold">
-                Upcoming Activity
-              </h3>
+            <div className="rounded-xl border border-slate-800 bg-slate-950/60 p-4">
+              <p className="font-semibold text-amber-400">
+                Falling Steel Competition
+              </p>
 
-              <div className="mt-5 space-y-4">
-                <div className="rounded-lg border border-gray-800 bg-gray-950 p-4">
-                  <p className="font-semibold text-yellow-400">
-                    Church Outreach Meeting
-                  </p>
+              <p className="mt-1 text-sm text-slate-500">
+                Saturday
+              </p>
+            </div>
 
-                  <p className="mt-1 text-sm text-gray-400">
-                    Thursday at 10:00 AM
-                  </p>
-                </div>
+            <div className="rounded-xl border border-slate-800 bg-slate-950/60 p-4">
+              <p className="font-semibold text-amber-400">
+                Partnership Follow-Up
+              </p>
 
-                <div className="rounded-lg border border-gray-800 bg-gray-950 p-4">
-                  <p className="font-semibold text-yellow-400">
-                    Falling Steel Competition
-                  </p>
-
-                  <p className="mt-1 text-sm text-gray-400">
-                    Saturday
-                  </p>
-                </div>
-
-                <div className="rounded-lg border border-gray-800 bg-gray-950 p-4">
-                  <p className="font-semibold text-yellow-400">
-                    Partnership Follow-Up
-                  </p>
-
-                  <p className="mt-1 text-sm text-gray-400">
-                    G-Code Holsters
-                  </p>
-                </div>
-              </div>
-            </article>
+              <p className="mt-1 text-sm text-slate-500">
+                G-Code Holsters
+              </p>
+            </div>
           </div>
-        </section>
+        </article>
       </div>
-    </main>
+    </AppShell>
   );
 }

@@ -1,34 +1,31 @@
 import Link from "next/link";
+import AuthBranding from "@/components/AuthBranding";
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-gray-950 text-white flex items-center justify-center">
-      <div className="text-center">
+    <main className="flex min-h-screen items-center justify-center bg-slate-950 px-4 text-white">
+      <section className="w-full max-w-md rounded-2xl border border-slate-800 bg-slate-900 p-8 shadow-2xl shadow-black/20">
+        <AuthBranding />
 
-        <h1 className="text-6xl font-bold text-yellow-400">
-          🛡 Shepherds Defense
-        </h1>
+        <div className="mt-10">
+          <Link
+            href="/login"
+            className="block w-full rounded-xl bg-amber-400 px-5 py-3 text-center text-lg font-bold text-slate-950 transition hover:bg-amber-300"
+          >
+            Enter SDOP
+          </Link>
+        </div>
 
-        <h2 className="text-3xl mt-3">
-          Operations Portal
-        </h2>
+        <div className="mt-8 border-t border-slate-800 pt-5 text-center">
+          <p className="text-xs text-slate-500">
+            Version 0.3 Alpha
+          </p>
 
-        <p className="mt-6 text-gray-400 text-lg">
-          Equipping Those Who Protect What Matters Most
-        </p>
-
-        <Link
-  href="/login"
-  className="mt-10 inline-block rounded-xl bg-yellow-500 px-8 py-4 text-xl font-bold text-black transition hover:bg-yellow-400"
->
-  Login
-</Link>
-
-        <p className="mt-12 text-sm text-gray-500">
-          Version 0.1
-        </p>
-
-      </div>
+          <p className="mt-2 text-xs text-slate-600">
+            © 2026 Shepherds Defense Group
+          </p>
+        </div>
+      </section>
     </main>
   );
 }

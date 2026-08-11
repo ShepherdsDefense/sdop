@@ -1,0 +1,45 @@
+"use server";
+
+import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
+import { createClient } from "@/lib/supabase/server";
+
+export async function createChurch(formData: FormData) {
+  const supabase = await createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    redirect("/login");
+  }
+
+  const churchName = formData.get("church_name")?.toString().trim();
+
+  if (!churchName) {
+    throw new Error("Church name is required.");
+  }
+
+  const { error } = await supabase.from("churches").insert({
+    church_name: churchName,
+    denomination: formData.get("denomination")?.toString() || null,
+    address: formData.get("address")?.toString() || null,
+    city: formData.get("city")?.toString() || null,
+    county: formData.get("county")?.toString() || null,
+    phone: formData.get("phone")?.toString() || null,
+    email: formData.get("email")?.toString() || null,
+    website: formData.get("website")?.toString() || null,
+    status: formData.get("status")?.toString() || "New",
+    priority: formData.get("priority")?.toString() || "Medium",
+    notes: formData.get("notes")?.toString() || null,
+  });
+
+  if (error) {
+    console.error("Error creating church:", error);
+    throw new Error("Unable to save church.");
+  }
+
+  revalidatePath("/churches");
+  redirect("/churches");
+}
