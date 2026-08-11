@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import AppShell from "@/components/AppShell";
 import { createClient } from "@/lib/supabase/server";
@@ -155,9 +156,13 @@ export default async function ChurchesPage() {
                   <div className="flex items-start justify-between gap-3">
                     <div>
                       <h3 className="font-bold">
-                        {church.church_name}
-                      </h3>
-
+  <Link
+  href={`/churches/${church.id}`}
+  className="transition hover:text-amber-400"
+>
+  {church.church_name}
+</Link>
+</h3>
                       <p className="mt-1 text-sm text-slate-500">
                         {[church.city, church.county]
                           .filter(Boolean)
