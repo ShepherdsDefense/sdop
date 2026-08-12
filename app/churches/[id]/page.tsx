@@ -1,4 +1,7 @@
 import Link from "next/link";
+import { notFound, redirect } from "next/navigation";
+import AppShell from "@/components/AppShell";
+import { createClient } from "@/lib/supabase/server";
 
 type ChurchProfilePageProps = {
   params: Promise<{
@@ -11,26 +14,134 @@ export default async function ChurchProfilePage({
 }: ChurchProfilePageProps) {
   const { id } = await params;
 
+  const supabase = await createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    redirect("/login");
+  }
+
+  const { data: church, error } = await supabase
+    .from("churches")
+    .select("*")
+    .eq("id", id)
+    .single();
+
+  if (error) {
+    console.error("Church profile error:", error);
+  }
+
+  if (!church) {
+    notFound();
+  }
+
   return (
-    <main className="min-h-screen bg-slate-950 p-10 text-white">
-      <h1 className="text-4xl font-black text-amber-400">
-        Church Profile Test
-      </h1>
+    <AppShell active="churches">
+      <div className="mx-auto max-w-5xl">
+        <Link
+          href="/churches"
+          className="text-sm font-medium text-amber-400 transition hover:text-amber-300"
+        >
+          ← Back to Church CRM
+        </Link>
 
-      <p className="mt-6 text-xl">
-        Church ID:
+        <section className="mt-6 rounded-2xl border border-slate-800 bg-slate-900 p-6">
+          <div className="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
+            <div>
+              <p className="text-sm font-semibold text-amber-400">
+                Church Profile
+              </p>
+
+              <h2 className="mt-1 text-3xl font-black tracking-tight sm:text-4xl">
+                {church.church_name}
+              </h2>
+
+              <p className="mt-2 text-slate-400">
+                {[church.city, church.county]
+                  .filter(Boolean)
+                  .join(", ") || "Location not entered"}
+              </p>
+            </div>
+
+            <div className="flex flex-wrap items-center gap-2">
+  <span className="rounded-full bg-amber-400/10 px-3 py-1 text-sm font-semibold text-amber-400">
+    {church.status}
+  </span>
+
+  <span className="rounded-full bg-slate-800 px-3 py-1 text-sm text-slate-300">
+    {church.priority} Priority
+  </span>
+
+  <Link
+    href={`/churches/${church.id}/edit`}
+    className="rounded-xl bg-amber-400 px-4 py-2 text-sm font-bold text-slate-950 transition hover:bg-amber-300"
+  >
+    Edit Church
+  </Link>
+</div>
+          </div>
+        </section>
+
+        <div className="mt-6 grid gap-6 lg:grid-cols-2">
+          <section className="rounded-2xl border border-slate-800 bg-slate-900 p-6">
+            <p className="text-xs font-bold uppercase tracking-widest text-slate-500">
+              Contact Information
+            </p>
+
+            <div className="mt-5 space-y-5">
+              <Detail label="Phone" value={church.phone} />
+              <Detail label="Email" value={church.email} />
+              <Detail label="Website" value={church.website} />
+              <Detail label="Denomination" value={church.denomination} />
+            </div>
+          </section>
+
+          <section className="rounded-2xl border border-slate-800 bg-slate-900 p-6">
+            <p className="text-xs font-bold uppercase tracking-widest text-slate-500">
+              Location
+            </p>
+
+            <div className="mt-5 space-y-5">
+              <Detail label="Address" value={church.address} />
+              <Detail label="City" value={church.city} />
+              <Detail label="County" value={church.county} />
+            </div>
+          </section>
+        </div>
+
+        <section className="mt-6 rounded-2xl border border-slate-800 bg-slate-900 p-6">
+          <p className="text-xs font-bold uppercase tracking-widest text-slate-500">
+            Notes
+          </p>
+
+          <p className="mt-4 whitespace-pre-wrap text-slate-300">
+            {church.notes || "No notes have been entered yet."}
+          </p>
+        </section>
+      </div>
+    </AppShell>
+  );
+}
+
+function Detail({
+  label,
+  value,
+}: {
+  label: string;
+  value: string | null;
+}) {
+  return (
+    <div>
+      <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+        {label}
       </p>
 
-      <p className="mt-2 break-all text-slate-300">
-        {id}
+      <p className="mt-1 text-slate-200">
+        {value || "Not entered"}
       </p>
-
-      <Link
-        href="/churches"
-        className="mt-8 inline-block text-amber-400"
-      >
-        ← Back to Churches
-      </Link>
-    </main>
+    </div>
   );
 }

@@ -43,3 +43,48 @@ export async function createChurch(formData: FormData) {
   revalidatePath("/churches");
   redirect("/churches");
 }
+
+export async function updateChurch(id: string, formData: FormData) {
+  const supabase = await createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    redirect("/login");
+  }
+
+  const churchName = formData.get("church_name")?.toString().trim();
+
+  if (!churchName) {
+    throw new Error("Church name is required.");
+  }
+
+  const { error } = await supabase
+    .from("churches")
+    .update({
+      church_name: churchName,
+      denomination: formData.get("denomination")?.toString() || null,
+      address: formData.get("address")?.toString() || null,
+      city: formData.get("city")?.toString() || null,
+      county: formData.get("county")?.toString() || null,
+      phone: formData.get("phone")?.toString() || null,
+      email: formData.get("email")?.toString() || null,
+      website: formData.get("website")?.toString() || null,
+      status: formData.get("status")?.toString() || "New",
+      priority: formData.get("priority")?.toString() || "Medium",
+      notes: formData.get("notes")?.toString() || null,
+    })
+    .eq("id", id);
+
+  if (error) {
+    console.error("Error updating church:", error);
+    throw new Error("Unable to update church.");
+  }
+
+  revalidatePath("/churches");
+  revalidatePath(`/churches/${id}`);
+
+  redirect(`/churches/${id}`);
+}

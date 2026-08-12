@@ -122,8 +122,13 @@ export default async function ChurchesPage() {
                       className="transition hover:bg-slate-800/40"
                     >
                       <td className="px-5 py-4 font-semibold">
-                        {church.church_name}
-                      </td>
+  <Link
+    href={`/churches/${church.id}`}
+    className="text-white transition hover:text-amber-400"
+  >
+    {church.church_name}
+  </Link>
+</td>
 
                       <td className="px-5 py-4 text-slate-400">
                         {[church.city, church.county]
