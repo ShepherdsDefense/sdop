@@ -2,29 +2,6 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import AppShell from "@/components/AppShell";
 
-const statistics = [
-  {
-    label: "Church Prospects",
-    value: "50",
-    detail: "4 added this month",
-  },
-  {
-    label: "Follow-Ups Due",
-    value: "7",
-    detail: "3 need attention today",
-  },
-  {
-    label: "Meetings",
-    value: "2",
-    detail: "Scheduled this week",
-  },
-  {
-    label: "Active Partners",
-    value: "4",
-    detail: "Churches and vendors",
-  },
-];
-
 const tasks = [
   "Call Grace Life Church",
   "Send follow-up email to G-Code",
@@ -43,6 +20,36 @@ export default async function DashboardPage() {
     redirect("/login");
   }
 
+  const { count: churchCount, error: churchCountError } = await supabase
+    .from("churches")
+    .select("*", { count: "exact", head: true });
+
+  if (churchCountError) {
+    console.error("Error counting churches:", churchCountError);
+  }
+
+  const statistics = [
+    {
+      label: "Church Prospects",
+      value: String(churchCount ?? 0),
+      detail: "Live from Church CRM",
+    },
+    {
+      label: "Follow-Ups Due",
+      value: "7",
+      detail: "3 need attention today",
+    },
+    {
+      label: "Meetings",
+      value: "2",
+      detail: "Scheduled this week",
+    },
+    {
+      label: "Active Partners",
+      value: "4",
+      detail: "Churches and vendors",
+    },
+  ];
   return (
     <AppShell active="dashboard">
       <div className="rounded-2xl border border-slate-800 bg-gradient-to-br from-slate-900 to-slate-900/60 p-6 shadow-xl shadow-black/10">
