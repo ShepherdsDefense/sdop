@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import AppShell from "@/components/AppShell";
 import { createClient } from "@/lib/supabase/server";
+import DeleteChurchButton from "@/components/DeleteChurchButton";
 
 type ChurchProfilePageProps = {
   params: Promise<{
@@ -49,41 +50,46 @@ export default async function ChurchProfilePage({
         </Link>
 
         <section className="mt-6 rounded-2xl border border-slate-800 bg-slate-900 p-6">
-          <div className="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
-            <div>
-              <p className="text-sm font-semibold text-amber-400">
-                Church Profile
-              </p>
+  <div className="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
+    <div>
+      <p className="text-sm font-semibold text-amber-400">
+        Church Profile
+      </p>
 
-              <h2 className="mt-1 text-3xl font-black tracking-tight sm:text-4xl">
-                {church.church_name}
-              </h2>
+      <h2 className="mt-1 text-3xl font-black tracking-tight sm:text-4xl">
+        {church.church_name}
+      </h2>
 
-              <p className="mt-2 text-slate-400">
-                {[church.city, church.county]
-                  .filter(Boolean)
-                  .join(", ") || "Location not entered"}
-              </p>
-            </div>
+      <p className="mt-2 text-slate-400">
+        {[church.city, church.county]
+          .filter(Boolean)
+          .join(", ") || "Location not entered"}
+      </p>
+    </div>
 
-            <div className="flex flex-wrap items-center gap-2">
-  <span className="rounded-full bg-amber-400/10 px-3 py-1 text-sm font-semibold text-amber-400">
-    {church.status}
-  </span>
+    <div className="flex flex-wrap items-center gap-2">
+      <span className="rounded-full bg-amber-400/10 px-3 py-1 text-sm font-semibold text-amber-400">
+        {church.status}
+      </span>
 
-  <span className="rounded-full bg-slate-800 px-3 py-1 text-sm text-slate-300">
-    {church.priority} Priority
-  </span>
+      <span className="rounded-full bg-slate-800 px-3 py-1 text-sm text-slate-300">
+        {church.priority} Priority
+      </span>
 
-  <Link
-    href={`/churches/${church.id}/edit`}
-    className="rounded-xl bg-amber-400 px-4 py-2 text-sm font-bold text-slate-950 transition hover:bg-amber-300"
-  >
-    Edit Church
-  </Link>
-</div>
-          </div>
-        </section>
+      <Link
+        href={`/churches/${church.id}/edit`}
+        className="rounded-xl bg-amber-400 px-4 py-2 text-sm font-bold text-slate-950 transition hover:bg-amber-300"
+      >
+        Edit Church
+      </Link>
+
+      <DeleteChurchButton
+        churchId={church.id}
+        churchName={church.church_name}
+      />
+    </div>
+  </div>
+</section>
 
         <div className="mt-6 grid gap-6 lg:grid-cols-2">
           <section className="rounded-2xl border border-slate-800 bg-slate-900 p-6">

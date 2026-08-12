@@ -88,3 +88,29 @@ export async function updateChurch(id: string, formData: FormData) {
 
   redirect(`/churches/${id}`);
 }
+export async function deleteChurch(id: string) {
+  const supabase = await createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    redirect("/login");
+  }
+
+  const { error } = await supabase
+    .from("churches")
+    .delete()
+    .eq("id", id);
+
+  if (error) {
+    console.error("Error deleting church:", error);
+    throw new Error("Unable to delete church.");
+  }
+
+  revalidatePath("/churches");
+  revalidatePath("/dashboard");
+
+  redirect("/churches");
+}
