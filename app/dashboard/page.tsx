@@ -80,7 +80,7 @@ if (followUpCountError) {
     Signed in as {user.email}
   </p>
 </div>
-
+<div className="mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
       {statistics.map((statistic) => {
   const card = (
     <article className="h-full rounded-2xl border border-slate-800 bg-slate-900 p-5 shadow-lg shadow-black/10 transition hover:-translate-y-0.5 hover:border-slate-700">
@@ -116,7 +116,7 @@ if (followUpCountError) {
     </div>
   );
 })}
-
+</div>
       <div className="mt-6 grid gap-6 xl:grid-cols-2">
         <article className="rounded-2xl border border-slate-800 bg-slate-900 p-6 shadow-xl shadow-black/10">
           <div className="flex items-center justify-between">
