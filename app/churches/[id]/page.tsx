@@ -117,7 +117,59 @@ export default async function ChurchProfilePage({
             </div>
           </section>
         </div>
+<section className="mt-6 rounded-2xl border border-slate-800 bg-slate-900 p-6">
+  <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+    <div>
+      <p className="text-xs font-bold uppercase tracking-widest text-slate-500">
+        Follow-Up
+      </p>
 
+      <h3 className="mt-1 text-xl font-bold">
+        Next Action
+      </h3>
+    </div>
+
+    <span
+      className={
+        church.follow_up_completed
+          ? "rounded-full bg-emerald-500/10 px-3 py-1 text-sm font-semibold text-emerald-400"
+          : "rounded-full bg-amber-400/10 px-3 py-1 text-sm font-semibold text-amber-400"
+      }
+    >
+      {church.follow_up_completed ? "Completed" : "Open"}
+    </span>
+  </div>
+
+  {church.follow_up_date ||
+  church.follow_up_type ||
+  church.follow_up_notes ? (
+    <div className="mt-5 grid gap-5 sm:grid-cols-2">
+      <Detail
+        label="Follow-Up Date"
+        value={church.follow_up_date}
+      />
+
+      <Detail
+        label="Follow-Up Type"
+        value={church.follow_up_type}
+      />
+
+      <div className="sm:col-span-2">
+        <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+          Follow-Up Notes
+        </p>
+
+        <p className="mt-1 whitespace-pre-wrap text-slate-200">
+          {church.follow_up_notes || "No follow-up notes entered"}
+        </p>
+      </div>
+    </div>
+  ) : (
+    <p className="mt-4 text-slate-400">
+      No follow-up is currently scheduled.
+    </p>
+  )}
+</section>
         <section className="mt-6 rounded-2xl border border-slate-800 bg-slate-900 p-6">
           <p className="text-xs font-bold uppercase tracking-widest text-slate-500">
             Notes
