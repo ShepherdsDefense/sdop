@@ -1,4 +1,5 @@
 import Link from "next/link";
+import CompleteFollowUpButton from "@/components/CompleteFollowUpButton";
 import { redirect } from "next/navigation";
 import AppShell from "@/components/AppShell";
 import { createClient } from "@/lib/supabase/server";
@@ -155,16 +156,20 @@ function FollowUpSection({
       {churches.length > 0 ? (
         <div className="divide-y divide-slate-800">
           {churches.map((church) => (
-            <Link
-              key={church.id}
-              href={`/churches/${church.id}`}
-              className="block p-5 transition hover:bg-slate-800/50"
-            >
+            <div
+  key={church.id}
+  className="p-5 transition hover:bg-slate-800/50"
+>
               <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                 <div>
-                  <h4 className="text-lg font-bold">
-                    {church.church_name}
-                  </h4>
+                  <Link
+  href={`/churches/${church.id}`}
+  className="transition hover:text-amber-400"
+>
+  <h4 className="text-lg font-bold">
+    {church.church_name}
+  </h4>
+</Link>
 
                   <p className="mt-1 text-sm text-slate-500">
                     {[church.city, church.county]
@@ -182,17 +187,23 @@ function FollowUpSection({
                   </p>
                 </div>
 
-                <div className="sm:text-right">
-                  <p className="font-semibold">
-                    {church.follow_up_date}
-                  </p>
+             <div className="flex flex-col gap-3 sm:items-end sm:text-right">
+  <div>
+    <p className="font-semibold">
+      {church.follow_up_date}
+    </p>
 
-                  <p className="mt-1 text-xs uppercase tracking-wider text-slate-500">
-                    {church.priority ?? "Medium"} Priority
-                  </p>
-                </div>
+    <p className="mt-1 text-xs uppercase tracking-wider text-slate-500">
+      {church.priority ?? "Medium"} Priority
+    </p>
+    <CompleteFollowUpButton
+    churchId={church.id}
+  />
+  </div>
+
+</div>
               </div>
-            </Link>
+            </div>
           ))}
         </div>
       ) : (

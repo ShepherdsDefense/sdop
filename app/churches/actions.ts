@@ -122,3 +122,30 @@ export async function deleteChurch(id: string) {
 
   redirect("/churches");
 }
+export async function completeFollowUp(id: string) {
+  const supabase = await createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    redirect("/login");
+  }
+
+  const { error } = await supabase
+    .from("churches")
+    .update({
+      follow_up_completed: true,
+    })
+    .eq("id", id);
+
+  if (error) {
+    console.error("Error completing follow-up:", error);
+    throw new Error("Unable to complete follow-up.");
+  }
+
+  revalidatePath("/follow-ups");
+  revalidatePath("/dashboard");
+  revalidatePath(`/churches/${id}`);
+}
