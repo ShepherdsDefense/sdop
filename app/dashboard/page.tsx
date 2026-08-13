@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import AppShell from "@/components/AppShell";
@@ -80,26 +81,41 @@ if (followUpCountError) {
   </p>
 </div>
 
-      <div className="mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        {statistics.map((statistic) => (
-          <article
-            key={statistic.label}
-            className="rounded-2xl border border-slate-800 bg-slate-900 p-5 shadow-lg shadow-black/10 transition hover:-translate-y-0.5 hover:border-slate-700"
-          >
-            <p className="text-sm font-medium text-slate-400">
-              {statistic.label}
-            </p>
+      {statistics.map((statistic) => {
+  const card = (
+    <article className="h-full rounded-2xl border border-slate-800 bg-slate-900 p-5 shadow-lg shadow-black/10 transition hover:-translate-y-0.5 hover:border-slate-700">
+      <p className="text-sm font-medium text-slate-400">
+        {statistic.label}
+      </p>
 
-            <p className="mt-3 text-4xl font-bold tracking-tight text-amber-400">
-              {statistic.value}
-            </p>
+      <p className="mt-3 text-4xl font-bold tracking-tight text-amber-400">
+        {statistic.value}
+      </p>
 
-            <p className="mt-2 text-sm text-slate-500">
-              {statistic.detail}
-            </p>
-          </article>
-        ))}
-      </div>
+      <p className="mt-2 text-sm text-slate-500">
+        {statistic.detail}
+      </p>
+    </article>
+  );
+
+  if (statistic.label === "Follow-Ups Due") {
+    return (
+      <Link
+        key={statistic.label}
+        href="/follow-ups"
+        className="block"
+      >
+        {card}
+      </Link>
+    );
+  }
+
+  return (
+    <div key={statistic.label}>
+      {card}
+    </div>
+  );
+})}
 
       <div className="mt-6 grid gap-6 xl:grid-cols-2">
         <article className="rounded-2xl border border-slate-800 bg-slate-900 p-6 shadow-xl shadow-black/10">
