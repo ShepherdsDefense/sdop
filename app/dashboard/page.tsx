@@ -27,7 +27,17 @@ export default async function DashboardPage() {
   if (churchCountError) {
     console.error("Error counting churches:", churchCountError);
   }
+const today = new Date().toISOString().split("T")[0];
 
+const { count: followUpCount, error: followUpCountError } = await supabase
+  .from("churches")
+  .select("*", { count: "exact", head: true })
+  .eq("follow_up_completed", false)
+  .lte("follow_up_date", today);
+
+if (followUpCountError) {
+  console.error("Error counting follow-ups:", followUpCountError);
+}
   const statistics = [
     {
       label: "Church Prospects",
@@ -35,10 +45,10 @@ export default async function DashboardPage() {
       detail: "Live from Church CRM",
     },
     {
-      label: "Follow-Ups Due",
-      value: "7",
-      detail: "3 need attention today",
-    },
+  label: "Follow-Ups Due",
+  value: String(followUpCount ?? 0),
+  detail: "Open follow-ups due",
+},
     {
       label: "Meetings",
       value: "2",
