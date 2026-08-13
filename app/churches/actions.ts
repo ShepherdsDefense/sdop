@@ -149,3 +149,45 @@ export async function completeFollowUp(id: string) {
   revalidatePath("/dashboard");
   revalidatePath(`/churches/${id}`);
 }
+export async function scheduleFollowUp(id: string, formData: FormData) {
+  const supabase = await createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    redirect("/login");
+  }
+
+  const followUpDate = formData.get("follow_up_date")?.toString();
+  const followUpType = formData.get("follow_up_type")?.toString();
+  const followUpNotes = formData.get("follow_up_notes")?.toString() || null;
+
+  if (!followUpDate) {
+    throw new Error("Follow-up date is required.");
+  }
+
+  if (!followUpType) {
+    throw new Error("Follow-up type is required.");
+  }
+
+  const { error } = await supabase
+    .from("churches")
+    .update({
+      follow_up_date: followUpDate,
+      follow_up_type: followUpType,
+      follow_up_notes: followUpNotes,
+      follow_up_completed: false,
+    })
+    .eq("id", id);
+
+  if (error) {
+    console.error("Error scheduling follow-up:", error);
+    throw new Error("Unable to schedule follow-up.");
+  }
+
+  revalidatePath("/follow-ups");
+  revalidatePath("/dashboard");
+  revalidatePath(`/churches/${id}`);
+}

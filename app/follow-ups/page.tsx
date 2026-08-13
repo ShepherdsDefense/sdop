@@ -1,5 +1,6 @@
 import Link from "next/link";
 import CompleteFollowUpButton from "@/components/CompleteFollowUpButton";
+import SetNextFollowUpButton from "@/components/SetNextFollowUpButton";
 import { redirect } from "next/navigation";
 import AppShell from "@/components/AppShell";
 import { createClient } from "@/lib/supabase/server";
@@ -199,6 +200,9 @@ function FollowUpSection({
     <CompleteFollowUpButton
     churchId={church.id}
   />
+  <SetNextFollowUpButton
+  churchId={church.id}
+/>
   </div>
 
 </div>
