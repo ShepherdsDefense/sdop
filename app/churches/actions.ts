@@ -133,6 +133,34 @@ export async function completeFollowUp(id: string) {
     redirect("/login");
   }
 
+  // Get the current follow-up before marking it complete
+  const { data: church, error: churchError } = await supabase
+    .from("churches")
+    .select("follow_up_date, follow_up_type, follow_up_notes")
+    .eq("id", id)
+    .single();
+
+  if (churchError || !church) {
+    console.error("Error loading follow-up:", churchError);
+    throw new Error("Unable to load follow-up.");
+  }
+
+  // Save the completed follow-up permanently in history
+  const { error: historyError } = await supabase
+    .from("follow_up_history")
+    .insert({
+      church_id: id,
+      follow_up_date: church.follow_up_date,
+      follow_up_type: church.follow_up_type,
+      follow_up_notes: church.follow_up_notes,
+    });
+
+  if (historyError) {
+    console.error("Error saving follow-up history:", historyError);
+    throw new Error("Unable to save follow-up history.");
+  }
+
+  // Mark the current follow-up completed
   const { error } = await supabase
     .from("churches")
     .update({
