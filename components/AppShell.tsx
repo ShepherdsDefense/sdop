@@ -57,7 +57,7 @@ const navItems = [
     href: "#",
     key: "partnerships",
     icon: Handshake,
-    enabled: false,
+    enabled: true,
   },
   {
     label: "Training",
