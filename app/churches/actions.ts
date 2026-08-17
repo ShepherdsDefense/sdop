@@ -221,3 +221,36 @@ export async function scheduleFollowUp(id: string, formData: FormData) {
   revalidatePath("/dashboard");
   revalidatePath(`/churches/${id}`);
 }
+export async function saveMyProfile(formData: FormData) {
+  const supabase = await createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    redirect("/login");
+  }
+
+  const displayName = formData.get("display_name")?.toString().trim();
+
+  if (!displayName) {
+    throw new Error("Display name is required.");
+  }
+
+  const { error } = await supabase
+    .from("profiles")
+    .upsert({
+      id: user.id,
+      display_name: displayName,
+      email: user.email ?? null,
+      updated_at: new Date().toISOString(),
+    });
+
+  if (error) {
+    console.error("Error saving profile:", error);
+    throw new Error("Unable to save profile.");
+  }
+
+  revalidatePath("/dashboard");
+}

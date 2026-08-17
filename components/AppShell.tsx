@@ -12,6 +12,7 @@ import {
   LayoutDashboard,
   Menu,
   Target,
+  UserRound,
   X,
 } from "lucide-react";
 import LogoutButton from "@/components/LogoutButton";
@@ -19,13 +20,14 @@ import LogoutButton from "@/components/LogoutButton";
 type AppShellProps = {
   children: React.ReactNode;
   active?:
-    | "dashboard"
-    | "churches"
-    | "partnerships"
-    | "training"
-    | "calendar"
-    | "tasks"
-    | "reports";
+  | "dashboard"
+  | "profile"
+  | "churches"
+  | "partnerships"
+  | "training"
+  | "calendar"
+  | "tasks"
+  | "reports";
 };
 
 const navItems = [
@@ -36,6 +38,13 @@ const navItems = [
     icon: LayoutDashboard,
     enabled: true,
   },
+  {
+  label: "Profile",
+  href: "/profile",
+  key: "profile",
+  icon: UserRound,
+  enabled: true,
+},
   {
     label: "Churches",
     href: "/churches",
