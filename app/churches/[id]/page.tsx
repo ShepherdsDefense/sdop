@@ -49,6 +49,32 @@ export default async function ChurchProfilePage({
 if (historyError) {
   console.error("Follow-up history error:", historyError);
 }
+const completedByUserIds = [
+  ...new Set(
+    (followUpHistory ?? [])
+      .map((followUp) => followUp.completed_by_user_id)
+      .filter((userId): userId is string => Boolean(userId))
+  ),
+];
+
+const { data: completedByProfiles, error: profilesError } =
+  completedByUserIds.length > 0
+    ? await supabase
+        .from("profiles")
+        .select("id, display_name")
+        .in("id", completedByUserIds)
+    : { data: [], error: null };
+
+if (profilesError) {
+  console.error("Completed-by profile error:", profilesError);
+}
+
+const displayNameByUserId = new Map(
+  (completedByProfiles ?? []).map((profile) => [
+    profile.id,
+    profile.display_name,
+  ])
+);
 
   return (
     <AppShell active="churches">
@@ -236,7 +262,10 @@ if (historyError) {
   <p className="mt-1">
     Completed by:{" "}
     <span className="text-slate-300">
-      {followUp.completed_by_email || "User not recorded"}
+      {(followUp.completed_by_user_id &&
+  displayNameByUserId.get(followUp.completed_by_user_id)) ||
+  followUp.completed_by_email ||
+  "User not recorded"}
     </span>
   </p>
 </div>
