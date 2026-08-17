@@ -41,8 +41,8 @@ export default async function ChurchProfilePage({
   const { data: followUpHistory, error: historyError } = await supabase
   .from("follow_up_history")
   .select(
-    "id, follow_up_date, follow_up_type, follow_up_notes, completed_at"
-  )
+  "id, follow_up_date, follow_up_type, follow_up_notes, completed_at, completed_by_user_id, completed_by_email"
+)
   .eq("church_id", id)
   .order("completed_at", { ascending: false });
 
@@ -225,12 +225,21 @@ if (historyError) {
             </div>
           </div>
 
-          <p className="mt-4 border-t border-slate-800 pt-4 text-xs text-slate-500">
-            Completed:{" "}
-            {followUp.completed_at
-              ? new Date(followUp.completed_at).toLocaleString()
-              : "Completion time unavailable"}
-          </p>
+          <div className="mt-4 border-t border-slate-800 pt-4 text-xs text-slate-500">
+  <p>
+    Completed:{" "}
+    {followUp.completed_at
+      ? new Date(followUp.completed_at).toLocaleString()
+      : "Completion time unavailable"}
+  </p>
+
+  <p className="mt-1">
+    Completed by:{" "}
+    <span className="text-slate-300">
+      {followUp.completed_by_email || "User not recorded"}
+    </span>
+  </p>
+</div>
         </div>
       ))}
     </div>

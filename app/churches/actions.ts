@@ -149,11 +149,13 @@ export async function completeFollowUp(id: string) {
   const { error: historyError } = await supabase
     .from("follow_up_history")
     .insert({
-      church_id: id,
-      follow_up_date: church.follow_up_date,
-      follow_up_type: church.follow_up_type,
-      follow_up_notes: church.follow_up_notes,
-    });
+  church_id: id,
+  follow_up_date: church.follow_up_date,
+  follow_up_type: church.follow_up_type,
+  follow_up_notes: church.follow_up_notes,
+  completed_by_user_id: user.id,
+  completed_by_email: user.email ?? null,
+});
 
   if (historyError) {
     console.error("Error saving follow-up history:", historyError);
