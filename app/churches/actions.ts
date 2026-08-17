@@ -239,18 +239,25 @@ export async function saveMyProfile(formData: FormData) {
   }
 
   const { error } = await supabase
-    .from("profiles")
-    .upsert({
+  .from("profiles")
+  .upsert(
+    {
       id: user.id,
       display_name: displayName,
       email: user.email ?? null,
       updated_at: new Date().toISOString(),
-    });
+    },
+    {
+      onConflict: "id",
+    }
+  );
 
   if (error) {
     console.error("Error saving profile:", error);
     throw new Error("Unable to save profile.");
   }
 
-  revalidatePath("/dashboard");
+  revalidatePath("/profile");
+revalidatePath("/dashboard");
+redirect("/profile");
 }
