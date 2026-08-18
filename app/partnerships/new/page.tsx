@@ -139,29 +139,55 @@ export default async function NewPartnershipPage() {
           </div>
 
           <div className="grid gap-6 sm:grid-cols-2">
-            <div>
-              <label className="mb-2 block text-sm font-medium">
-                City
-              </label>
+  <div>
+    <label className="mb-2 block text-sm font-medium">
+      City
+    </label>
 
-              <input
-                name="city"
-                className="w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 outline-none focus:border-amber-400"
-              />
-            </div>
+    <input
+      name="city"
+      className="w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 outline-none focus:border-amber-400"
+    />
+  </div>
 
-            <div>
-              <label className="mb-2 block text-sm font-medium">
-                County
-              </label>
+  <div>
+    <label className="mb-2 block text-sm font-medium">
+      County
+    </label>
 
-              <input
-                name="county"
-                className="w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 outline-none focus:border-amber-400"
-              />
-            </div>
-          </div>
+    <input
+      name="county"
+      className="w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 outline-none focus:border-amber-400"
+    />
+  </div>
+</div>
 
+<div className="grid gap-6 sm:grid-cols-2">
+  <div>
+    <label className="mb-2 block text-sm font-medium">
+      State
+    </label>
+
+    <input
+      name="state"
+      placeholder="NC"
+      className="w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 outline-none focus:border-amber-400"
+    />
+  </div>
+
+  <div>
+    <label className="mb-2 block text-sm font-medium">
+      ZIP Code
+    </label>
+
+    <input
+      name="zip_code"
+      inputMode="numeric"
+      placeholder="28376"
+      className="w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 outline-none focus:border-amber-400"
+    />
+  </div>
+</div>
           <div className="grid gap-6 sm:grid-cols-2">
             <div>
               <label className="mb-2 block text-sm font-medium">

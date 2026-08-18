@@ -68,10 +68,28 @@ export default async function PartnershipsPage() {
                     </p>
 
                     <p className="mt-3 text-sm text-slate-300">
-                      {[partnership.city, partnership.county]
-                        .filter(Boolean)
-                        .join(", ") || "Location not entered"}
-                    </p>
+  {partnership.city || partnership.state || partnership.zip_code ? (
+    <>
+      {[partnership.city, partnership.state]
+        .filter(Boolean)
+        .join(", ")}
+
+      {partnership.zip_code && (
+        <> {partnership.zip_code}</>
+      )}
+
+      {partnership.county && (
+        <span className="text-slate-500">
+          {" "}· {partnership.county} County
+        </span>
+      )}
+    </>
+  ) : partnership.county ? (
+    <>{partnership.county} County</>
+  ) : (
+    "Location not entered"
+  )}
+</p>
                   </div>
 
                   <div className="flex flex-wrap gap-2 sm:justify-end">

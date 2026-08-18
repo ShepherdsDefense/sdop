@@ -50,6 +50,12 @@ export async function createPartnership(formData: FormData) {
     county:
       formData.get("county")?.toString() || null,
 
+    state:
+      formData.get("state")?.toString() || null,
+
+    zip_code:
+      formData.get("zip_code")?.toString() || null,
+
     status:
       formData.get("status")?.toString() || "New",
 
