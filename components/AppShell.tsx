@@ -54,7 +54,7 @@ const navItems = [
   },
   {
     label: "Partnerships",
-    href: "#",
+    href: "/partnerships",
     key: "partnerships",
     icon: Handshake,
     enabled: true,
