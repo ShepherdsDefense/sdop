@@ -259,7 +259,75 @@ export default async function EditPartnershipPage({
               </select>
             </div>
           </div>
+<div className="rounded-2xl border border-slate-800 bg-slate-950/40 p-5">
+  <p className="text-xs font-bold uppercase tracking-widest text-slate-500">
+    Follow-Up
+  </p>
 
+  <div className="mt-5 grid gap-6 sm:grid-cols-2">
+    <div>
+      <label className="mb-2 block text-sm font-medium">
+        Follow-Up Date
+      </label>
+
+      <input
+        name="follow_up_date"
+        type="date"
+        defaultValue={partnership.follow_up_date ?? ""}
+        className="w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 outline-none focus:border-amber-400"
+      />
+    </div>
+
+    <div>
+      <label className="mb-2 block text-sm font-medium">
+        Follow-Up Type
+      </label>
+
+      <select
+        name="follow_up_type"
+        defaultValue={partnership.follow_up_type ?? ""}
+        className="w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 outline-none focus:border-amber-400"
+      >
+        <option value="">No follow-up selected</option>
+        <option value="Phone Call">Phone Call</option>
+        <option value="Email">Email</option>
+        <option value="Meeting">Meeting</option>
+        <option value="Affiliate Check-In">Affiliate Check-In</option>
+        <option value="Vendor Follow-Up">Vendor Follow-Up</option>
+        <option value="Proposal">Proposal</option>
+        <option value="Range Coordination">Range Coordination</option>
+        <option value="Other">Other</option>
+      </select>
+    </div>
+  </div>
+
+  <div className="mt-6">
+    <label className="mb-2 block text-sm font-medium">
+      Follow-Up Notes
+    </label>
+
+    <textarea
+      name="follow_up_notes"
+      rows={4}
+      defaultValue={partnership.follow_up_notes ?? ""}
+      placeholder="What needs to happen next?"
+      className="w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 outline-none focus:border-amber-400"
+    />
+  </div>
+
+  <label className="mt-6 flex items-center gap-3">
+    <input
+      name="follow_up_completed"
+      type="checkbox"
+      defaultChecked={partnership.follow_up_completed ?? false}
+      className="h-4 w-4 accent-amber-400"
+    />
+
+    <span className="text-sm text-slate-300">
+      Follow-up completed
+    </span>
+  </label>
+</div>
           <div>
             <label className="mb-2 block text-sm font-medium">
               Notes

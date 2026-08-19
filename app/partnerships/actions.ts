@@ -50,6 +50,17 @@ export async function createPartnership(formData: FormData) {
       formData.get("status")?.toString() || "New",
     priority:
       formData.get("priority")?.toString() || "Medium",
+      follow_up_date:
+  formData.get("follow_up_date")?.toString() || null,
+
+follow_up_type:
+  formData.get("follow_up_type")?.toString() || null,
+
+follow_up_notes:
+  formData.get("follow_up_notes")?.toString() || null,
+
+follow_up_completed:
+  formData.get("follow_up_completed") === "on",
     notes:
       formData.get("notes")?.toString() || null,
   });
@@ -116,6 +127,17 @@ export async function updatePartnership(
         formData.get("status")?.toString() || "New",
       priority:
         formData.get("priority")?.toString() || "Medium",
+        follow_up_date:
+  formData.get("follow_up_date")?.toString() || null,
+
+follow_up_type:
+  formData.get("follow_up_type")?.toString() || null,
+
+follow_up_notes:
+  formData.get("follow_up_notes")?.toString() || null,
+
+follow_up_completed:
+  formData.get("follow_up_completed") === "on",
       notes:
         formData.get("notes")?.toString() || null,
     })
