@@ -154,3 +154,74 @@ follow_up_completed:
 
   redirect(`/partnerships/${id}`);
 }
+export async function completePartnershipFollowUp(id: string) {
+  const supabase = await createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    redirect("/login");
+  }
+
+  // Get the current follow-up before marking it complete
+  const { data: partnership, error: partnershipError } = await supabase
+    .from("partnerships")
+    .select(
+      "id, follow_up_date, follow_up_type, follow_up_notes"
+    )
+    .eq("id", id)
+    .single();
+
+  if (partnershipError || !partnership) {
+    console.error(
+      "Error loading partnership follow-up:",
+      partnershipError
+    );
+    throw new Error("Unable to load partnership follow-up.");
+  }
+
+  // Save the completed follow-up permanently in history
+  const { error: historyError } = await supabase
+    .from("partnership_follow_up_history")
+    .insert({
+      partnership_id: id,
+      follow_up_date: partnership.follow_up_date,
+      follow_up_type: partnership.follow_up_type,
+      follow_up_notes: partnership.follow_up_notes,
+      completed_by_user_id: user.id,
+      completed_by_email: user.email ?? null,
+    });
+
+  if (historyError) {
+    console.error(
+      "Error saving partnership follow-up history:",
+      historyError
+    );
+    throw new Error(
+      "Unable to save partnership follow-up history."
+    );
+  }
+
+  // Mark the current partnership follow-up completed
+  const { error: updateError } = await supabase
+    .from("partnerships")
+    .update({
+      follow_up_completed: true,
+    })
+    .eq("id", id);
+
+  if (updateError) {
+    console.error(
+      "Error completing partnership follow-up:",
+      updateError
+    );
+    throw new Error("Unable to complete partnership follow-up.");
+  }
+
+  revalidatePath("/follow-ups");
+  revalidatePath("/dashboard");
+  revalidatePath("/partnerships");
+  revalidatePath(`/partnerships/${id}`);
+}

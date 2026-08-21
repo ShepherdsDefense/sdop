@@ -4,6 +4,7 @@ import SetNextFollowUpButton from "@/components/SetNextFollowUpButton";
 import { redirect } from "next/navigation";
 import AppShell from "@/components/AppShell";
 import { createClient } from "@/lib/supabase/server";
+import CompletePartnershipFollowUpButton from "@/components/CompletePartnershipFollowUpButton";
 
 export default async function FollowUpsPage() {
   const supabase = await createClient();
@@ -337,6 +338,11 @@ function PartnershipFollowUpSection({
 
                   <p className="mt-1 text-xs uppercase tracking-wider text-slate-500">
                     {partnership.priority ?? "Medium"} Priority
+                    <div className="mt-3">
+  <CompletePartnershipFollowUpButton
+    partnershipId={partnership.id}
+  />
+</div>
                   </p>
                 </div>
               </div>
