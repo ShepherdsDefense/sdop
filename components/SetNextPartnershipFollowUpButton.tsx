@@ -37,7 +37,7 @@ export default function SetNextPartnershipFollowUpButton({
   }
 
   return (
-    <div className="w-full rounded-2xl border border-slate-700 bg-slate-950 p-5 text-left">
+    <div className="w-full rounded-2xl border border-slate-700 bg-slate-950 p-5 text-left text-slate-100">
       <p className="text-xs font-bold uppercase tracking-widest text-amber-400">
         Next Follow-Up
       </p>
@@ -45,7 +45,7 @@ export default function SetNextPartnershipFollowUpButton({
       <form action={handleSubmit} className="mt-4 space-y-4">
         <div className="grid gap-4 sm:grid-cols-2">
           <div>
-            <label className="mb-2 block text-sm font-medium">
+            <label className="mb-2 block text-sm font-semibold text-slate-200">
               Date
             </label>
 
@@ -53,12 +53,12 @@ export default function SetNextPartnershipFollowUpButton({
               name="follow_up_date"
               type="date"
               required
-              className="w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 outline-none focus:border-amber-400"
+              className="w-full rounded-xl border border-slate-600 bg-slate-900 px-4 py-3 text-base font-medium text-white outline-none focus:border-amber-400"
             />
           </div>
 
           <div>
-            <label className="mb-2 block text-sm font-medium">
+            <label className="mb-2 block text-sm font-semibold text-slate-200">
               Type
             </label>
 
@@ -66,7 +66,7 @@ export default function SetNextPartnershipFollowUpButton({
               name="follow_up_type"
               required
               defaultValue=""
-              className="w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 outline-none focus:border-amber-400"
+              className="w-full rounded-xl border border-slate-600 bg-slate-900 px-4 py-3 text-base font-medium text-white outline-none focus:border-amber-400"
             >
               <option value="" disabled>
                 Select type
@@ -93,7 +93,7 @@ export default function SetNextPartnershipFollowUpButton({
             name="follow_up_notes"
             rows={4}
             placeholder="What needs to happen next?"
-            className="w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 outline-none focus:border-amber-400"
+            className="w-full rounded-xl border border-slate-600 bg-slate-900 px-4 py-3 text-base font-medium text-white placeholder:text-slate-500 outline-none focus:border-amber-400"
           />
         </div>
 
