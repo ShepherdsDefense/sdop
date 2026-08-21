@@ -37,7 +37,52 @@ export default async function PartnershipProfilePage({
   if (!partnership) {
     notFound();
   }
+const {
+  data: partnershipFollowUpHistory,
+  error: historyError,
+} = await supabase
+  .from("partnership_follow_up_history")
+  .select(
+    "id, follow_up_date, follow_up_type, follow_up_notes, completed_at, completed_by_user_id, completed_by_email"
+  )
+  .eq("partnership_id", id)
+  .order("completed_at", { ascending: false });
 
+if (historyError) {
+  console.error(
+    "Partnership follow-up history error:",
+    historyError
+  );
+}
+const completedByUserIds = [
+  ...new Set(
+    (partnershipFollowUpHistory ?? [])
+      .map((followUp) => followUp.completed_by_user_id)
+      .filter((userId): userId is string => Boolean(userId))
+  ),
+];
+
+const { data: completedByProfiles, error: profilesError } =
+  completedByUserIds.length > 0
+    ? await supabase
+        .from("profiles")
+        .select("id, display_name")
+        .in("id", completedByUserIds)
+    : { data: [], error: null };
+
+if (profilesError) {
+  console.error(
+    "Partnership completed-by profile error:",
+    profilesError
+  );
+}
+
+const displayNameByUserId = new Map(
+  (completedByProfiles ?? []).map((profile) => [
+    profile.id,
+    profile.display_name,
+  ])
+);
   return (
     <AppShell active="partnerships">
       <div className="mx-auto max-w-5xl">
@@ -163,7 +208,82 @@ export default async function PartnershipProfilePage({
             </div>
           </section>
         </div>
+<section className="mt-6 rounded-2xl border border-slate-800 bg-slate-900 p-6">
+  <div>
+    <p className="text-xs font-bold uppercase tracking-widest text-slate-500">
+      Follow-Up History
+    </p>
 
+    <h3 className="mt-1 text-xl font-bold">
+      Completed Activity
+    </h3>
+
+    <p className="mt-1 text-sm text-slate-400">
+      Previous completed follow-ups for this partnership.
+    </p>
+  </div>
+
+  {partnershipFollowUpHistory &&
+  partnershipFollowUpHistory.length > 0 ? (
+    <div className="mt-6 space-y-4">
+      {partnershipFollowUpHistory.map((followUp) => (
+        <div
+          key={followUp.id}
+          className="rounded-xl border border-slate-800 bg-slate-950/60 p-5"
+        >
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+            <div>
+              <p className="font-semibold text-amber-400">
+                {followUp.follow_up_type || "Follow-Up"}
+              </p>
+
+              <p className="mt-1 text-sm text-slate-300">
+                {followUp.follow_up_notes || "No notes entered."}
+              </p>
+            </div>
+
+            <div className="sm:text-right">
+              <p className="text-sm font-semibold text-slate-200">
+                {followUp.follow_up_date || "No date entered"}
+              </p>
+
+              <p className="mt-1 text-xs uppercase tracking-wider text-emerald-400">
+                Completed
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-4 border-t border-slate-800 pt-4 text-xs text-slate-500">
+            <p>
+              Completed:{" "}
+              {followUp.completed_at
+                ? new Date(followUp.completed_at).toLocaleString()
+                : "Completion time unavailable"}
+            </p>
+
+            <p className="mt-1">
+              Completed by:{" "}
+              <span className="text-slate-300">
+                {(followUp.completed_by_user_id &&
+                  displayNameByUserId.get(
+                    followUp.completed_by_user_id
+                  )) ||
+                  followUp.completed_by_email ||
+                  "User not recorded"}
+              </span>
+            </p>
+          </div>
+        </div>
+      ))}
+    </div>
+  ) : (
+    <div className="mt-5 rounded-xl border border-slate-800 bg-slate-950/40 p-5">
+      <p className="text-sm text-slate-500">
+        No completed partnership follow-ups yet.
+      </p>
+    </div>
+  )}
+</section>
         <section className="mt-6 rounded-2xl border border-slate-800 bg-slate-900 p-6">
           <p className="text-xs font-bold uppercase tracking-widest text-slate-500">
             Notes
