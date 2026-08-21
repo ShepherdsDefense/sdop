@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import AppShell from "@/components/AppShell";
 import { createClient } from "@/lib/supabase/server";
 import CompletePartnershipFollowUpButton from "@/components/CompletePartnershipFollowUpButton";
+import SetNextPartnershipFollowUpButton from "@/components/SetNextPartnershipFollowUpButton";
 
 export default async function FollowUpsPage() {
   const supabase = await createClient();
@@ -342,6 +343,10 @@ function PartnershipFollowUpSection({
   <CompletePartnershipFollowUpButton
     partnershipId={partnership.id}
   />
+
+  <SetNextPartnershipFollowUpButton
+  partnershipId={partnership.id}
+/>
 </div>
                   </p>
                 </div>
