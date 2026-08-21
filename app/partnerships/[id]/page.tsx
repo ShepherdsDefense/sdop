@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import AppShell from "@/components/AppShell";
 import { createClient } from "@/lib/supabase/server";
+import SetNextPartnershipFollowUpButton from "@/components/SetNextPartnershipFollowUpButton";
 
 type PartnershipProfilePageProps = {
   params: Promise<{
@@ -193,6 +194,11 @@ const displayNameByUserId = new Map(
       No follow-up is currently scheduled.
     </p>
   )}
+  <div className="mt-6">
+  <SetNextPartnershipFollowUpButton
+    partnershipId={partnership.id}
+  />
+</div>
 </section>
           <section className="rounded-2xl border border-slate-800 bg-slate-900 p-6">
             <p className="text-xs font-bold uppercase tracking-widest text-slate-500">
