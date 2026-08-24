@@ -39,6 +39,71 @@ const { count: followUpCount, error: followUpCountError } = await supabase
 if (followUpCountError) {
   console.error("Error counting follow-ups:", followUpCountError);
 }
+const {
+  count: partnershipFollowUpCount,
+  error: partnershipFollowUpCountError,
+} = await supabase
+  .from("partnerships")
+  .select("*", { count: "exact", head: true })
+  .eq("follow_up_completed", false)
+  .lte("follow_up_date", today);
+
+if (partnershipFollowUpCountError) {
+  console.error(
+    "Error counting partnership follow-ups:",
+    partnershipFollowUpCountError
+  );
+}
+
+const totalFollowUpsDue =
+  (followUpCount ?? 0) + (partnershipFollowUpCount ?? 0);
+  const {
+  count: activePartnerCount,
+  error: activePartnerCountError,
+} = await supabase
+  .from("partnerships")
+  .select("*", { count: "exact", head: true })
+  .eq("status", "Active Partner");
+
+if (activePartnerCountError) {
+  console.error(
+    "Error counting active partners:",
+    activePartnerCountError
+  );
+}
+const {
+  count: churchMeetingCount,
+  error: churchMeetingCountError,
+} = await supabase
+  .from("churches")
+  .select("*", { count: "exact", head: true })
+  .eq("status", "Meeting Scheduled");
+
+if (churchMeetingCountError) {
+  console.error(
+    "Error counting church meetings:",
+    churchMeetingCountError
+  );
+}
+
+const {
+  count: partnershipMeetingCount,
+  error: partnershipMeetingCountError,
+} = await supabase
+  .from("partnerships")
+  .select("*", { count: "exact", head: true })
+  .eq("status", "Meeting Scheduled");
+
+if (partnershipMeetingCountError) {
+  console.error(
+    "Error counting partnership meetings:",
+    partnershipMeetingCountError
+  );
+}
+
+const totalMeetingCount =
+  (churchMeetingCount ?? 0) +
+  (partnershipMeetingCount ?? 0);
   const statistics = [
     {
       label: "Church Prospects",
@@ -47,19 +112,19 @@ if (followUpCountError) {
     },
     {
   label: "Follow-Ups Due",
-  value: String(followUpCount ?? 0),
+  value: String(totalFollowUpsDue),
   detail: "Open follow-ups due",
 },
     {
-      label: "Meetings",
-      value: "2",
-      detail: "Scheduled this week",
-    },
+  label: "Meetings",
+  value: String(totalMeetingCount),
+  detail: "Currently scheduled",
+},
     {
-      label: "Active Partners",
-      value: "4",
-      detail: "Churches and vendors",
-    },
+  label: "Active Partners",
+  value: String(activePartnerCount ?? 0),
+  detail: "Live from Partnerships CRM",
+},
   ];
   return (
     <AppShell active="dashboard">
