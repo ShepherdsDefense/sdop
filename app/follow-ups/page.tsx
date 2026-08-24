@@ -96,7 +96,7 @@ const partnershipUpcoming = openPartnershipFollowUps.filter(
 
         <div className="mt-6">
           <p className="text-sm font-semibold text-amber-400">
-            Church Outreach
+            Relationship Management
           </p>
 
           <h2 className="mt-1 text-3xl font-black tracking-tight sm:text-4xl">
@@ -104,7 +104,7 @@ const partnershipUpcoming = openPartnershipFollowUps.filter(
           </h2>
 
           <p className="mt-2 text-slate-400">
-            Keep track of churches that need your attention.
+            Keep track of churches and partnerships that need your attention.
           </p>
         </div>
 
