@@ -75,10 +75,10 @@ const navItems = [
   },
   {
     label: "Tasks",
-    href: "#",
+    href: "/tasks",
     key: "tasks",
     icon: CheckSquare,
-    enabled: false,
+    enabled: true,
   },
   {
     label: "Reports",
