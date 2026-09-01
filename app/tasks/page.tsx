@@ -2,6 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import AppShell from "@/components/AppShell";
 import { createClient } from "@/lib/supabase/server";
+import CompleteTaskButton from "@/components/CompleteTaskButton";
 
 export default async function TasksPage() {
   const supabase = await createClient();
@@ -90,6 +91,12 @@ export default async function TasksPage() {
                     <p className="mt-3 text-xs font-semibold uppercase tracking-wider text-slate-500">
                       Assigned To
                     </p>
+
+                    {task.status === "Open" && (
+  <div className="mt-4">
+    <CompleteTaskButton taskId={task.id} />
+  </div>
+)}
 
                     <p className="mt-1 text-sm text-slate-300">
                       {task.assigned_to_email || "Unassigned"}

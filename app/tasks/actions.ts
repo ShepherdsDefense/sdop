@@ -50,3 +50,33 @@ export async function createTask(formData: FormData) {
 
   redirect("/tasks");
 }
+
+export async function completeTask(id: string) {
+  const supabase = await createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    redirect("/login");
+  }
+
+  const { error } = await supabase
+    .from("tasks")
+    .update({
+      status: "Completed",
+      completed_at: new Date().toISOString(),
+      completed_by_user_id: user.id,
+      completed_by_email: user.email ?? null,
+    })
+    .eq("id", id);
+
+  if (error) {
+    console.error("Error completing task:", error);
+    throw new Error("Unable to complete task.");
+  }
+
+  revalidatePath("/tasks");
+  revalidatePath("/dashboard");
+}
