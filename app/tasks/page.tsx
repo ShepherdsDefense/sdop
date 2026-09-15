@@ -25,6 +25,12 @@ export default async function TasksPage() {
     console.error("Error loading tasks:", error);
   }
 
+  const openTasks =
+  (tasks ?? []).filter((task) => task.status === "Open");
+
+const completedTasks =
+  (tasks ?? []).filter((task) => task.status === "Completed");
+
   return (
     <AppShell active="tasks">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
@@ -51,9 +57,9 @@ export default async function TasksPage() {
       </div>
 
       <div className="mt-6 overflow-hidden rounded-2xl border border-slate-800 bg-slate-900">
-        {tasks && tasks.length > 0 ? (
+        {openTasks.length > 0 ? (
           <div className="divide-y divide-slate-800">
-            {tasks.map((task) => (
+            {openTasks.map((task) => (
               <div
                 key={task.id}
                 className="p-5 transition hover:bg-slate-800/40"
@@ -118,6 +124,80 @@ export default async function TasksPage() {
           </div>
         )}
       </div>
+      <section className="mt-6 rounded-2xl border border-slate-800 bg-slate-900 p-6">
+  <div>
+    <p className="text-xs font-bold uppercase tracking-widest text-slate-500">
+      Task History
+    </p>
+
+    <h3 className="mt-1 text-xl font-bold">
+      Completed Activity
+    </h3>
+
+    <p className="mt-1 text-sm text-slate-400">
+      Previously completed operational tasks.
+    </p>
+  </div>
+
+  {completedTasks.length > 0 ? (
+    <div className="mt-6 space-y-4">
+      {completedTasks.map((task) => (
+        <div
+          key={task.id}
+          className="rounded-xl border border-slate-800 bg-slate-950/60 p-5"
+        >
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+            <div>
+              <h4 className="font-semibold text-slate-100">
+                {task.title}
+              </h4>
+
+              <p className="mt-1 text-sm text-slate-300">
+                {task.description || "No description entered"}
+              </p>
+
+              <p className="mt-3 text-xs uppercase tracking-wider text-slate-500">
+                {task.priority ?? "Medium"} Priority
+              </p>
+            </div>
+
+            <div className="sm:text-right">
+              <p className="text-sm font-semibold text-slate-200">
+                Due: {task.due_date || "No due date"}
+              </p>
+
+              <p className="mt-1 text-xs font-semibold uppercase tracking-wider text-emerald-400">
+                Completed
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-4 border-t border-slate-800 pt-4 text-xs text-slate-500">
+            <p>
+              Completed:{" "}
+              {task.completed_at
+                ? new Date(task.completed_at).toLocaleString()
+                : "Completion time unavailable"}
+            </p>
+
+            <p className="mt-1">
+              Completed by:{" "}
+              <span className="text-slate-300">
+                {task.completed_by_email || "User not recorded"}
+              </span>
+            </p>
+          </div>
+        </div>
+      ))}
+    </div>
+  ) : (
+    <div className="mt-5 rounded-xl border border-slate-800 bg-slate-950/40 p-5">
+      <p className="text-sm text-slate-500">
+        No completed tasks yet.
+      </p>
+    </div>
+  )}
+</section>
     </AppShell>
   );
 }
