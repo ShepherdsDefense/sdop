@@ -60,10 +60,11 @@ const completedTasks =
         {openTasks.length > 0 ? (
           <div className="divide-y divide-slate-800">
             {openTasks.map((task) => (
-              <div
-                key={task.id}
-                className="p-5 transition hover:bg-slate-800/40"
-              >
+              <Link
+  key={task.id}
+  href={`/tasks/${task.id}`}
+  className="block p-5 transition hover:bg-slate-800/40"
+>
                 <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                   <div>
                     <h3 className="text-lg font-bold">
@@ -109,7 +110,7 @@ const completedTasks =
                     </p>
                   </div>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         ) : (
@@ -176,7 +177,9 @@ const completedTasks =
             <p>
               Completed:{" "}
               {task.completed_at
-                ? new Date(task.completed_at).toLocaleString()
+                ? new Date(task.completed_at).toLocaleString("en-US", {
+  timeZone: "America/New_York",
+})
                 : "Completion time unavailable"}
             </p>
 

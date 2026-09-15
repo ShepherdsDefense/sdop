@@ -67,6 +67,40 @@ export default async function NewTaskPage() {
             />
           </div>
 
+          <div>
+  <label className="mb-2 block text-sm font-medium">
+    Category
+  </label>
+
+  <select
+    name="category"
+    defaultValue=""
+    className="w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 outline-none focus:border-amber-400"
+  >
+    <option value="">Select a category</option>
+    <option value="Church">Church</option>
+    <option value="Partnership">Partnership</option>
+    <option value="Training">Training</option>
+    <option value="Outreach">Outreach</option>
+    <option value="Follow-Up">Follow-Up</option>
+    <option value="Administrative">Administrative</option>
+    <option value="Other">Other</option>
+  </select>
+</div>
+
+<div>
+  <label className="mb-2 block text-sm font-medium">
+    Contact
+  </label>
+
+  <input
+    name="contact"
+    type="text"
+    placeholder="Name, phone number, or email"
+    className="w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 outline-none focus:border-amber-400"
+  />
+</div>
+
           <div className="grid gap-6 sm:grid-cols-2">
             <div>
               <label className="mb-2 block text-sm font-medium">
