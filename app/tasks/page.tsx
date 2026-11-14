@@ -92,7 +92,11 @@ const completedTasks =
                     </p>
 
                     <p className="mt-1 text-sm text-slate-200">
-                      {task.due_date || "No due date"}
+                      {task.due_date
+  ? task.due_date.split("-").slice(1).concat(
+      task.due_date.split("-")[0]
+    ).join("/")
+  : "No due date"}
                     </p>
 
                     <p className="mt-3 text-xs font-semibold uppercase tracking-wider text-slate-500">

@@ -84,7 +84,11 @@ export default async function TaskDetailsPage({
                 Due Date
               </p>
               <p className="mt-2 font-semibold text-slate-200">
-                {task.due_date || "No due date"}
+                {task.due_date
+  ? task.due_date.split("-").slice(1).concat(
+      task.due_date.split("-")[0]
+    ).join("/")
+  : "No due date"}
               </p>
             </div>
 
